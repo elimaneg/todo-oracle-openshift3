@@ -131,6 +131,18 @@
         <subsystem xmlns="urn:jboss:domain:datasources:1.2">
             <datasources>
                 <!-- ##DATASOURCES## -->
+                <xa-datasource jndi-name="java:/XAOracleDS" pool-name="XAOracleDS" enabled="true">
+                    <xa-datasource-property name="URL">${env.OPENSHIFT_ORACLE_DB_CONNECTION_URL}</xa-datasource-property>
+                    <driver>oracle</driver>
+                    <xa-pool>
+                        <is-same-rm-override>false</is-same-rm-override>
+                        <no-tx-separate-pools>true</no-tx-separate-pools>
+                    </xa-pool>
+                    <security>
+                        <user-name>${env.OPENSHIFT_ORACLE_DB_USERNAME}</user-name>
+                        <password>${env.OPENSHIFT_ORACLE_DB_PASSWORD}</password>
+                    </security>
+                </xa-datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
@@ -140,6 +152,9 @@
                     </driver>
                     <driver name="postgresql" module="org.postgresql">
                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+                    </driver>
+                    <driver name="oracle" module="com.oracle">
+                        <xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
                     </driver>
                 </drivers>
             </datasources>
